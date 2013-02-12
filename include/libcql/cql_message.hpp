@@ -17,8 +17,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CQL_MESSAGE_IMPL_H_
-#define CQL_MESSAGE_IMPL_H_
+#ifndef CQL_MESSAGE_H_
+#define CQL_MESSAGE_H_
 
 #include <string>
 #include <boost/asio/buffer.hpp>
@@ -27,7 +27,7 @@
 namespace cql {
     class cql_error_t;
 
-    class cql_message_impl_t {
+    class cql_message_t {
     public:
 
         virtual cql::cql_opcode_enum
@@ -45,13 +45,10 @@ namespace cql {
         virtual bool
         prepare(cql::cql_error_t& err) = 0;
 
-        virtual boost::asio::mutable_buffer
-        buffer() = 0;
-
         virtual
-        ~cql_message_impl_t(){};
+        ~cql_message_t(){};
     };
 
 } // namespace cql
 
-#endif // CQL_MESSAGE_IMPL_H_
+#endif // CQL_MESSAGE_H_

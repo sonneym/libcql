@@ -24,10 +24,10 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_list.hpp"
-#include "libcql/cql_map.hpp"
-#include "libcql/cql_set.hpp"
-#include "libcql/cql_result_metadata.hpp"
+#include "libcql/internal/cql_list_impl.hpp"
+#include "libcql/internal/cql_map_impl.hpp"
+#include "libcql/internal/cql_set_impl.hpp"
+#include "libcql/internal/cql_result_metadata.hpp"
 
 namespace cql {
 
@@ -163,45 +163,45 @@ namespace cql {
 
         bool
         get_list(int i,
-                 cql::cql_list_t& output) const;
+                 cql::cql_list_impl_t& output) const;
 
         bool
         get_list(const std::string& column,
-                 cql::cql_list_t& output) const;
+                 cql::cql_list_impl_t& output) const;
 
         bool
         get_list(const std::string& keyspace,
                  const std::string& table,
                  const std::string& column,
-                 cql::cql_list_t& output) const;
+                 cql::cql_list_impl_t& output) const;
 
         bool
         get_set(int i,
-                 cql::cql_set_t& output) const;
+                 cql::cql_set_impl_t& output) const;
 
         bool
         get_set(const std::string& column,
-                 cql::cql_set_t& output) const;
+                 cql::cql_set_impl_t& output) const;
 
         bool
         get_set(const std::string& keyspace,
                  const std::string& table,
                  const std::string& column,
-                 cql::cql_set_t& output) const;
+                 cql::cql_set_impl_t& output) const;
 
         bool
         get_map(int i,
-                 cql::cql_map_t& output) const;
+                 cql::cql_map_impl_t& output) const;
 
         bool
         get_map(const std::string& column,
-                 cql::cql_map_t& output) const;
+                 cql::cql_map_impl_t& output) const;
 
         bool
         get_map(const std::string& keyspace,
                  const std::string& table,
                  const std::string& column,
-                 cql::cql_map_t& output) const;
+                 cql::cql_map_impl_t& output) const;
 
 
     private:

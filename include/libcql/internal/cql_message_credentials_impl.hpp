@@ -21,17 +21,17 @@
 #define CQL_MESSAGE_CREDENTIALS_H_
 
 #include "libcql/cql.hpp"
-#include "libcql/internal/cql_message_impl.hpp"
+#include "libcql/cql_message.hpp"
 
 namespace cql {
 
     class cql_message_credentials_impl_t :
-        public cql_message_impl_t
+        public cql_message_t
     {
 
     public:
 
-        cql_message_credentials_t();
+        cql_message_credentials_impl_t();
 
         void
         credentials(const std::map<std::string, std::string>& c);

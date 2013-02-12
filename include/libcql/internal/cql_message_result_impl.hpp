@@ -23,7 +23,7 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 
 #include "libcql/cql.hpp"
-#include "libcql/internal/cql_message_impl.hpp"
+#include "libcql/cql_message.hpp"
 #include "libcql/internal/cql_result_metadata.hpp"
 #include "libcql/internal/cql_row_impl.hpp"
 
@@ -31,7 +31,7 @@ namespace cql {
 
     class cql_message_result_impl_t :
         boost::noncopyable,
-        public cql_message_impl_t
+        public cql_message_t
     {
 
     public:

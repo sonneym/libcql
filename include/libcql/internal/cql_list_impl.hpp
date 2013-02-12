@@ -25,8 +25,8 @@
 #include <boost/noncopyable.hpp>
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_vector_stream.hpp"
 #include "libcql/cql_serialization.hpp"
+#include "libcql/cql_vector_stream.hpp"
 
 namespace cql {
 

@@ -18,8 +18,8 @@
 */
 
 #include <memory>
-#include "libcql/internal/cql_defines.hpp"
 #include "libcql/internal/cql_client_impl.hpp"
+#include "libcql/internal/cql_defines.hpp"
 #include "libcql/internal/cql_socket.hpp"
 #include "libcql/internal/cql_socket_ssl.hpp"
 

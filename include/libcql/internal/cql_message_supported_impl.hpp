@@ -23,14 +23,14 @@
 #include <sstream>
 
 #include "libcql/cql.hpp"
-#include "libcql/internal/cql_message_impl.hpp"
+#include "libcql/cql_message.hpp"
 
 #include <boost/algorithm/string/join.hpp>
 
 namespace cql {
 
     class cql_message_supported_t :
-        public cql_message_impl_t
+        public cql_message_t
     {
 
     public:

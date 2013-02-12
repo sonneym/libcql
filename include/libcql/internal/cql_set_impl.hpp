@@ -30,14 +30,14 @@
 
 namespace cql {
 
-    class cql_set_t :
+    class cql_set_impl_t :
         boost::noncopyable
     {
 
     public:
         typedef std::vector<cql::cql_byte_t> column_t;
 
-        cql_set_t();
+        cql_set_impl_t();
 
         void
         read(column_t column);

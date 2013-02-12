@@ -25,13 +25,13 @@
 #include <boost/ptr_container/ptr_list.hpp>
 
 #include "libcql/cql.hpp"
-#include "libcql/internal/cql_message_impl.hpp"
+#include "libcql/cql_message.hpp"
 
 namespace cql {
 
     class cql_message_execute_impl_t :
         boost::noncopyable,
-        public cql_message_impl_t
+        public cql_message_t
     {
 
     public:
