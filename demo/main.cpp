@@ -93,8 +93,7 @@ use_callback(cql::cql_client_t& client,
              int8_t stream,
              const cql::cql_message_result_t& result)
 {
-    cql::cql_message_prepare_t m("SELECT * from schema_keyspaces;");
-    client.prepare(m,
+    client.prepare("SELECT * from schema_keyspaces;",
                     &prepare_callback,
                     &message_errback);
 }

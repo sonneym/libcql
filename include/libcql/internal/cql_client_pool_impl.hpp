@@ -93,7 +93,7 @@ namespace cql {
               cql::cql_client_t::cql_message_errback_t  errback);
 
         cql::cql_stream_id_t
-        prepare(const cql::cql_message_prepare_t&         message,
+        prepare(const std::string&                        query,
                 cql::cql_client_t::cql_message_callback_t callback,
                 cql::cql_client_t::cql_message_errback_t  errback);
 

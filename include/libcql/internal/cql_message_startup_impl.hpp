@@ -17,21 +17,23 @@
   along with this program.      If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CQL_MESSAGE_STARTUP_H_
-#define CQL_MESSAGE_STARTUP_H_
+#ifndef CQL_MESSAGE_STARTUP_IMPL_H_
+#define CQL_MESSAGE_STARTUP_IMPL_H_
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/internal/cql_message.hpp"
 
 namespace cql {
 
-    class cql_message_startup_t :
+    class cql_message_startup_impl_t :
         public cql_message_t
     {
 
     public:
 
-        cql_message_startup_t();
+        cql_message_startup_impl_t();
+
+        cql_message_startup_impl_t(size_t size);
 
         void
         compression(const std::string& c);
@@ -54,18 +56,21 @@ namespace cql {
         std::string
         str() const;
 
-        std::istream&
-        read(std::istream& input);
+        bool
+        consume(cql::cql_error_t& err);
 
-        std::ostream&
-        write(std::ostream& output) const;
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
 
     private:
-
-        std::string _version;
-        std::string _compression;
+        std::vector<cql::cql_byte_t> _buffer;
+        std::string                  _version;
+        std::string                  _compression;
     };
 
 } // namespace cql
 
-#endif // CQL_MESSAGE_STARTUP_H_
+#endif // CQL_MESSAGE_STARTUP_IMPL_H_

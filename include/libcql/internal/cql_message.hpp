@@ -14,49 +14,44 @@
   GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public License
-  along with this program.      If not, see <http://www.gnu.org/licenses/>.
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CQL_MESSAGE_OPTIONS_IMPL_H_
-#define CQL_MESSAGE_OPTIONS_IMPL_H_
+#ifndef CQL_MESSAGE_H_
+#define CQL_MESSAGE_H_
 
+#include <string>
+#include <boost/asio/buffer.hpp>
 #include "libcql/cql.hpp"
-#include "libcql/internal/cql_message.hpp"
 
 namespace cql {
+    class cql_error_t;
 
-    class cql_message_options_impl_t :
-        public cql_message_t
-    {
-
+    class cql_message_t {
     public:
-        cql_message_options_impl_t();
 
-        cql_message_options_impl_t(size_t size);
+        virtual cql::cql_opcode_enum
+        opcode() const = 0;
 
-        cql::cql_opcode_enum
-        opcode() const;
+        virtual cql_int_t
+        size() const = 0;
 
-        cql_int_t
-        size() const;
+        virtual std::string
+        str() const = 0;
 
-        std::string
-        str() const;
+        virtual bool
+        consume(cql::cql_error_t& err) = 0;
 
-        bool
-        consume(cql::cql_error_t& err);
+        virtual bool
+        prepare(cql::cql_error_t& err) = 0;
 
-        bool
-        prepare(cql::cql_error_t& err);
+        virtual void*
+        buffer() = 0;
 
-        void*
-        buffer();
-
-    private:
-        std::vector<cql::cql_byte_t> _buffer;
-
+        virtual
+        ~cql_message_t(){};
     };
 
 } // namespace cql
 
-#endif // CQL_MESSAGE_OPTIONS_IMPL_H_
+#endif // CQL_MESSAGE_H_

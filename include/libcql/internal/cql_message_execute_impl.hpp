@@ -25,13 +25,14 @@
 #include <boost/ptr_container/ptr_list.hpp>
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/cql_message_execute.hpp"
+#include "libcql/internal/cql_message.hpp"
 
 namespace cql {
 
     class cql_message_execute_impl_t :
         boost::noncopyable,
-        public cql_message_t
+        public cql_message_t, cql_message_execute_t
     {
 
     public:
@@ -45,6 +46,8 @@ namespace cql {
         typedef  params_container_t::size_type      size_type;
 
         cql_message_execute_impl_t();
+
+        cql_message_execute_impl_t(size_t size);
 
         cql_message_execute_impl_t(const std::vector<cql::cql_byte_t>& id,
                                    cql::cql_short_t consistency);
@@ -103,13 +106,17 @@ namespace cql {
         std::string
         str() const;
 
-        std::istream&
-        read(std::istream& input);
+        bool
+        consume(cql::cql_error_t& err);
 
-        std::ostream&
-        write(std::ostream& output) const;
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
 
     private:
+        std::vector<cql::cql_byte_t>  _buffer;
         std::vector<cql::cql_byte_t>  _query_id;
         cql::cql_short_t              _consistency;
         params_container_t            _params;

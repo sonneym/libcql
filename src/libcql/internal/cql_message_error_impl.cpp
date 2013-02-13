@@ -6,6 +6,13 @@
 #include "libcql/internal/cql_message_error.hpp"
 
 cql::cql_message_error_t::cql_message_error_t() :
+    _buffer(0),
+    _code(0),
+    _message()
+{}
+
+cql::cql_message_error_t::cql_message_error_t(size_t size) :
+    _buffer(size),
     _code(0),
     _message()
 {}
@@ -76,4 +83,10 @@ cql::cql_message_error_t::write(std::ostream& output) const
     output.write(reinterpret_cast<char*>(&code), sizeof(code));
     cql::encode_string(output, _message);
     return output;
+}
+
+void*
+cql::cql_message_error_t::buffer() const
+{
+    return boost::mutable_buffer(&_buffer[0], _buffer.size());
 }

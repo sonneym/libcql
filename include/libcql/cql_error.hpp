@@ -17,38 +17,33 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CQL_MESSAGE_H_
-#define CQL_MESSAGE_H_
+#ifndef CQL_ERROR_H_
+#define CQL_ERROR_H_
 
 #include <string>
-#include <boost/asio/buffer.hpp>
 #include "libcql/cql.hpp"
 
 namespace cql {
-    class cql_error_t;
 
-    class cql_message_t {
+    class cql_error_t
+    {
+
     public:
+        virtual bool
+        error() const = 0;
 
-        virtual cql::cql_opcode_enum
-        opcode() const = 0;
+        virtual bool
+        application() const = 0;
 
         virtual cql_int_t
-        size() const = 0;
+        application_error() const = 0;
 
-        virtual std::string
-        str() const = 0;
+        virtual cql_int_t
+        transport_error() const = 0;
 
-        virtual bool
-        consume(cql::cql_error_t& err) = 0;
-
-        virtual bool
-        prepare(cql::cql_error_t& err) = 0;
-
-        virtual
-        ~cql_message_t(){};
+        virtual const std::string&
+        message() const = 0;
     };
-
 } // namespace cql
 
-#endif // CQL_MESSAGE_H_
+#endif // CQL_ERROR_H_

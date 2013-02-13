@@ -21,7 +21,7 @@
 #define CQL_MESSAGE_PREPARE_IMPL_H_
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/internal/cql_message.hpp"
 
 namespace cql {
 
@@ -33,10 +33,9 @@ namespace cql {
 
         cql_message_prepare_impl_t();
 
-        cql_message_prepare_impl_t(const std::string& query);
+        cql_message_prepare_impl_t(size_t size);
 
-        const std::string&
-        prepare() const;
+        cql_message_prepare_impl_t(const std::string& query);
 
         const std::string&
         query() const;
@@ -53,14 +52,18 @@ namespace cql {
         std::string
         str() const;
 
-        std::istream&
-        read(std::istream& input);
+        bool
+        consume(cql::cql_error_t& err);
 
-        std::ostream&
-        write(std::ostream& output) const;
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
 
     private:
-        std::string _query;
+        std::vector<cql::cql_byte_t> _buffer;
+        std::string                  _query;
     };
 
 } // namespace cql

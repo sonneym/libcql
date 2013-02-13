@@ -21,19 +21,25 @@
 #define CQL_ERROR_IMPL_H_
 
 #include <string>
-#include "libcql/cql.hpp"
+#include "libcql/cql_error.hpp"
 
 namespace cql {
 
-    class cql_error_impl_t
+    class cql_error_impl_t :
+        public cql::cql_error_t
     {
 
     public:
+        cql_error_impl_t();
+
         cql_error_impl_t(
             bool application,
             cql_int_t application_error,
             cql_int_t transport_error,
             const std::string& message);
+
+        bool
+        error() const;
 
         bool
         application() const;

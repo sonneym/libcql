@@ -23,7 +23,7 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/internal/cql_message.hpp"
 #include "libcql/internal/cql_result_metadata.hpp"
 #include "libcql/internal/cql_row_impl.hpp"
 
@@ -43,6 +43,8 @@ namespace cql {
         typedef  row_container_t::const_iterator const_iterator;
         typedef  row_container_t::size_type      size_type;
 
+        cql_message_result_impl_t(size_t size);
+
         cql_message_result_impl_t();
 
         cql_int_t
@@ -56,12 +58,6 @@ namespace cql {
 
         std::string
         str() const;
-
-        std::istream&
-        read(std::istream& input);
-
-        std::ostream&
-        write(std::ostream& output) const;
 
         cql_int_t
         column_count() const;
@@ -87,10 +83,20 @@ namespace cql {
         const cql_result_metadata_t&
         metadata() const;
 
+        bool
+        consume(cql::cql_error_t& err);
+
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
+
     private:
-        cql_int_t                       _result_impl_type;
-        cql_int_t                       _row_count;
+        std::vector<cql::cql_byte_t>    _buffer;
         std::vector<cql::cql_byte_t>    _query_id;
+        cql_int_t                       _result_type;
+        cql_int_t                       _row_count;
         std::string                     _keyspace_name;
         std::string                     _table_name;
         cql::cql_result_metadata_t      _metadata;

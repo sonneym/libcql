@@ -21,7 +21,7 @@
 #define CQL_MESSAGE_CREDENTIALS_H_
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/internal/cql_message.hpp"
 
 namespace cql {
 
@@ -32,6 +32,8 @@ namespace cql {
     public:
 
         cql_message_credentials_impl_t();
+
+        cql_message_credentials_impl_t(size_t size);
 
         void
         credentials(const std::map<std::string, std::string>& c);
@@ -48,13 +50,17 @@ namespace cql {
         std::string
         str() const;
 
-        std::istream&
-        read(std::istream& input);
+        bool
+        consume(cql::cql_error_t& err);
 
-        std::ostream&
-        write(std::ostream& output) const;
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
 
     private:
+        std::vector<cql::cql_byte_t>       _buffer;
         std::map<std::string, std::string> _credentials;
     };
 

@@ -21,7 +21,7 @@
 #define CQL_MESSAGE_ERROR_IMPL_H_
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/internal/cql_message.hpp"
 
 namespace cql {
 
@@ -33,8 +33,10 @@ namespace cql {
 
         cql_message_error_impl_t();
 
+        cql_message_error_impl_t(size_t size);
+
         cql_message_error_impl_t(cql_int_t code,
-                            const std::string& message);
+                                 const std::string& message);
 
         const std::string&
         message() const;
@@ -57,15 +59,19 @@ namespace cql {
         std::string
         str() const;
 
-        std::istream&
-        read(std::istream& input);
+        bool
+        consume(cql::cql_error_t& err);
 
-        std::ostream&
-        write(std::ostream& output) const;
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
 
     private:
-        cql_int_t                _code;
-        std::string      _message;
+        std::vector<cql::cql_byte_t> _buffer;
+        cql_int_t                    _code;
+        std::string                  _message;
     };
 
 } // namespace cql

@@ -17,25 +17,27 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CQL_MESSAGE_SUPPORTED_H_
-#define CQL_MESSAGE_SUPPORTED_H_
+#ifndef CQL_MESSAGE_SUPPORTED_IMPL_H_
+#define CQL_MESSAGE_SUPPORTED_IMPL_H_
 
 #include <sstream>
 
 #include "libcql/cql.hpp"
-#include "libcql/cql_message.hpp"
+#include "libcql/internal/cql_message.hpp"
 
 #include <boost/algorithm/string/join.hpp>
 
 namespace cql {
 
-    class cql_message_supported_t :
+    class cql_message_supported_impl_t :
         public cql_message_t
     {
 
     public:
 
-        cql_message_supported_t();
+        cql_message_supported_impl_t();
+
+        cql_message_supported_impl_t(size_t size);
 
         void
         compressions(const std::list<std::string>& c);
@@ -58,18 +60,21 @@ namespace cql {
         std::string
         str() const;
 
-        std::istream&
-        read(std::istream& input);
+        bool
+        consume(cql::cql_error_t& err);
 
-        std::ostream&
-        write(std::ostream& output) const;
+        bool
+        prepare(cql::cql_error_t& err);
+
+        void*
+        buffer();
 
     private:
-
-        std::list<std::string> _versions;
-        std::list<std::string> _compressions;
+        std::vector<cql::cql_byte_t> _buffer;
+        std::list<std::string>       _versions;
+        std::list<std::string>       _compressions;
     };
 
 } // namespace cql
 
-#endif // CQL_MESSAGE_SUPPORTED_H_
+#endif // CQL_MESSAGE_SUPPORTED_IMPL_H_
