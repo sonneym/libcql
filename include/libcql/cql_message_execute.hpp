@@ -30,15 +30,6 @@ namespace cql {
     {
 
     public:
-        typedef  std::vector<cql::cql_byte_t>       param_t;
-        typedef  boost::ptr_list<param_t>           params_container_t;
-        typedef  param_t*                           value_type;
-        typedef  param_t&                           reference;
-        typedef  const param_t&                     const_reference;
-        typedef  params_container_t::iterator       iterator;
-        typedef  params_container_t::const_iterator const_iterator;
-        typedef  params_container_t::size_type      size_type;
-
         virtual const std::vector<cql::cql_byte_t>&
         query_id() const = 0;
 
@@ -52,7 +43,7 @@ namespace cql {
         consistency(const cql::cql_short_t consistency) = 0;
 
         virtual void
-        push_back(const param_t& val) = 0;
+        push_back(const std::vector<cql::cql_byte_t>& val) = 0;
 
         virtual void
         push_back(const std::string& val) = 0;
@@ -77,12 +68,6 @@ namespace cql {
 
         virtual void
         pop_back() = 0;
-
-        virtual const_iterator
-        begin() const = 0;
-
-        virtual const_iterator
-        end() const = 0;
 
         virtual cql::cql_opcode_enum
         opcode() const = 0;

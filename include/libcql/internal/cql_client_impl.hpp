@@ -455,7 +455,7 @@ namespace cql {
             default:
                 // need some bucket to put the data so we can get past the unkown
                 // body in the stream it will be discarded by the body_read_handle
-                _response_message.reset(new cql::cql_message_result_t(header.length()));
+                _response_message.reset(new cql::cql_message_result_impl_t(header.length()));
                 break;
             }
 
@@ -485,7 +485,7 @@ namespace cql {
 
                         it = _callback_map.find(header.stream());
                         if (it != _callback_map.end()) {
-                            (*it).second.first(*this, header.stream(), _response_message.release());
+                            (*it).second.first(*this, header.stream(), dynamic_cast<cql::cql_message_result_t*>(_response_message.release()));
                             _callback_map.erase(it);
                         }
                         else {
@@ -620,7 +620,7 @@ namespace cql {
 
             if (_connect_errback && !_closing) {
                 cql::cql_error_impl_t e(false, 0, err.value(), err.message());
-                _connect_errback(*this, &e);
+                _connect_errback(*this, e);
             }
         }
 
