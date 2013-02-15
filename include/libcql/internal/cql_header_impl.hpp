@@ -32,19 +32,22 @@ namespace cql {
         cql_header_impl_t();
 
         cql_header_impl_t(cql::cql_byte_t version,
-                     cql::cql_byte_t flags,
-                     cql::cql_stream_id_t stream,
-                     cql::cql_byte_t opcode,
-                     cql_int_t length);
+                          cql::cql_byte_t flags,
+                          cql::cql_stream_id_t stream,
+                          cql::cql_byte_t opcode,
+                          cql_int_t length);
 
         std::string
         str() const;
 
-        std::ostream&
-        write(std::ostream& output) const;
+        virtual bool
+        consume(cql::cql_error_t& err);
 
-        std::istream&
-        read(std::istream& input);
+        virtual bool
+        prepare(cql::cql_error_t& err);
+
+        virtual boost::shared_ptr<std::vector<cql::cql_byte_t> >
+        buffer();
 
         cql_int_t
         size() const;
@@ -80,6 +83,7 @@ namespace cql {
         length(cql_int_t v);
 
     private:
+        boost::shared_ptr<std::vector<cql::cql_byte_t> > _buffer;
         cql::cql_byte_t      _version;
         cql::cql_byte_t      _flags;
         cql::cql_stream_id_t _stream;

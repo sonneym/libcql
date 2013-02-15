@@ -85,7 +85,7 @@ cql::cql_message_error_t::write(std::ostream& output) const
     return output;
 }
 
-void*
+boost::shared_ptr<std::vector<cql::cql_byte_t> >
 cql::cql_message_error_t::buffer() const
 {
     return boost::mutable_buffer(&_buffer[0], _buffer.size());

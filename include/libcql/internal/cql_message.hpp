@@ -45,7 +45,7 @@ namespace cql {
         virtual bool
         prepare(cql::cql_error_t& err) = 0;
 
-        virtual void*
+        virtual boost::shared_ptr<std::vector<cql::cql_byte_t> >
         buffer() = 0;
 
         virtual

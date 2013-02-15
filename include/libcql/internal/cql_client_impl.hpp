@@ -65,8 +65,7 @@ namespace cql {
     {
 
     public:
-        typedef boost::tuple<boost::shared_ptr<cql::cql_header_impl_t>, boost::shared_ptr<cql::cql_message_t> > request_t;
-        typedef std::list<request_t> request_buffer_t;
+        typedef std::list<boost::shared_ptr<std::vector<cql::cql_byte_t> > > request_buffer_t;
         typedef std::pair<cql_message_callback_t, cql_message_errback_t> callback_pair_t;
         typedef boost::unordered_map<cql::cql_stream_id_t, callback_pair_t> callback_map_t;
         typedef boost::function<void(const boost::system::error_code&, std::size_t)> write_callback_t;
@@ -367,19 +366,19 @@ namespace cql {
             log(CQL_LOG_DEBUG, "sending message: " + data->str());
 
             cql::cql_stream_id_t id = get_new_stream();
-            boost::shared_ptr<cql::cql_header_impl_t> header(
-                new cql::cql_header_impl_t(CQL_VERSION_1_REQUEST,
-                                           CQL_FLAG_NOFLAG,
-                                           id,
-                                           _request_message->opcode(),
-                                           _request_message->size()));
+            cql::cql_header_impl_t header(CQL_VERSION_1_REQUEST,
+                                          CQL_FLAG_NOFLAG,
+                                          id,
+                                          _request_message->opcode(),
+                                          _request_message->size());
 
 
-            boost::asio::async_write(*_transport, boost::asio::buffer(header.get(), header->size()), callback);
-            boost::asio::async_write(*_transport, boost::asio::buffer(data->buffer(), data->size()), callback);
+            boost::asio::async_write(*_transport, boost::asio::buffer(header.buffer().get(), header.size()), callback);
+            boost::asio::async_write(*_transport, boost::asio::buffer(data->buffer().get(), data->size()), callback);
 
             // we have to keep the buffers around until the write is complete
-            _request_buffer.push_back(request_buffer_t::value_type(header, data));
+            _request_buffer.push_back(header.buffer());
+            _request_buffer.push_back(data->buffer());
             return id;
         }
 
@@ -449,7 +448,7 @@ namespace cql {
                 break;
 
             case CQL_OPCODE_EVENT:
-                _response_message.reset(new cql::cql_message_event_impl_t(header.length()));
+                // _response_message.reset(new cql::cql_message_event_impl_t(header.length()));
                 break;
 
             default:
@@ -460,7 +459,7 @@ namespace cql {
             }
 
             boost::asio::async_read(*_transport,
-                                    boost::asio::buffer(_response_message->buffer(), _response_message->size()),
+                                    boost::asio::buffer(_response_message->buffer().get(), _response_message->size()),
                                     boost::asio::transfer_exactly(header.length()),
                                     boost::bind(&cql_client_impl_t<cql_transport_t>::body_read_handle, this, header, boost::asio::placeholders::error));
         }

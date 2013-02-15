@@ -65,7 +65,7 @@ namespace cql {
         bool
         prepare(cql::cql_error_t& err);
 
-        void*
+        boost::shared_ptr<std::vector<cql::cql_byte_t> >
         buffer();
 
     private:
